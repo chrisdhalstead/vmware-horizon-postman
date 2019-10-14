@@ -1,0 +1,305 @@
+{
+	"info": {
+		"_postman_id": "898895c7-a02e-4a05-9fdb-09f4151fc349",
+		"name": "Horizon 7 REST API",
+		"description": "REST API for VMware Horizon 7.10 and later\n\nDocumented here: https://code.vmware.com/apis/697/view-rest-api\n\nEnter the following on the Variables Tab:\n\n\tHorizon Server FQDN\n\t\n\tUsername\n\t\n\tPassword\n\t\n\tDomain\n\nUsage:\n\nEnter the variables, click update then run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.\n\nChris Halstead\nchalstead@vmware.com\n@chrisdhalstead",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a9331b3b-ec16-4693-9bda-6068191e367a",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.globals.set(\"JWtoken\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "88cb0edc-2000-4c7c-9fb4-e27943763f1e",
+						"exec": [
+							"pm.globals.unset(\"JWtoken\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"domain\": \"{{domain}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/login",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connection Servers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/connection-servers",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"connection-servers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/farms",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"farms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RDS Servers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/rds-servers",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"rds-servers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Event DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/event-database",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"event-database"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AD Domains",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/ad-domains",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"ad-domains"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gateways",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/gateways",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"gateways"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAML Authenticators",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/saml-authenticators",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"saml-authenticators"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Composer Servers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/view-composers",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"view-composers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Virtual Centers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{horizonserver}}/rest/monitor/virtual-centers",
+					"protocol": "https",
+					"host": [
+						"{{horizonserver}}"
+					],
+					"path": [
+						"rest",
+						"monitor",
+						"virtual-centers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{JWtoken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "75e2b175-68fc-4bc2-8835-fc7a1923e1a1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4b6f9713-dd3e-4b17-9764-2253c42747de",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8b017936-155f-4f18-a18f-ea881bc2896b",
+			"key": "horizonserver",
+			"value": "Enter Horizon Server",
+			"type": "string"
+		},
+		{
+			"id": "592b683d-c819-47a2-bd60-51dca1b6a0bd",
+			"key": "username",
+			"value": "Enter Username",
+			"type": "string"
+		},
+		{
+			"id": "02a8797f-705e-4711-b84c-376b2036055e",
+			"key": "password",
+			"value": "Enter Password",
+			"type": "string"
+		},
+		{
+			"id": "c7be4b01-f9da-4cd3-9efa-23dec79a212b",
+			"key": "domain",
+			"value": "Enter Domain",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
