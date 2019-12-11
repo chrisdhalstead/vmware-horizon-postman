@@ -2,7 +2,7 @@
 Postman Collection for VMware Horizon 7 REST API  
 *REST API for VMware Horizon 7.10 and later*
 
-## Usage:
+## Usage
 
 1. Install Postman from https://www.getpostman.com/
 
