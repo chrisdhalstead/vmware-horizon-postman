@@ -1,9 +1,6 @@
 # vmware-horizon7-postman
-Postman Collection for VMware Horizon 7 REST API
-
-12/12/2019
-
-REST API for VMware Horizon 7.10 and later
+Postman Collection for VMware Horizon 7 REST API  
+*REST API for VMware Horizon 7.10 and later*
 
 ## Usage:
 
