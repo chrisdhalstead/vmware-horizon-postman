@@ -24,17 +24,20 @@ REST API for VMware Horizon 7.10 and later
 
 ## Usage:
 
+1. Install Postman from https://www.getpostman.com/
 
-Enter the following on the Variables Tab:
+2. Either click the "Run in Postman" button (preferred) or Import the appropriate JSON collection file into Postman 
+
+3. Edit the collection - enter the following on the Variables Tab:
 
 - [x] 	Horizon Server FQDN
 - [x] 	Username
 - [x] 	Password	
 - [x] 	Domain
 
-Either click the "Run in Postman" button or Import the JSON collection file into Postman - https://www.getpostman.com/
+Click Update
 
-Enter the variables, click update then run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.
+4. Run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.
 
 ## Feedback
 
