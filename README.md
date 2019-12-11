@@ -10,7 +10,7 @@ REST API for VMware Horizon 7.10 and later
 ## Horizon 7.11
 
 
-- [x] - Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0bd9b80c00d4144abb75)
+- [x] - Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/de27a9ea33f1752e6092)
 - [x] - Documented here: [https://code.vmware.com/apis/732/view-rest-api](url)
 
 
