@@ -43,4 +43,4 @@ REST API for VMware Horizon 7.10 and later
 
 Chris Halstead  
 chalstead@vmware.com  
-@chrisdhalstead
+Twitter: @chrisdhalstead
