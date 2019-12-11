@@ -6,7 +6,7 @@ Postman Collection for VMware Horizon 7 REST API
 
 1. Install Postman from https://www.getpostman.com/
 
-2. Either click the "Run in Postman" button (preferred) or Import the appropriate JSON collection file into Postman 
+2. Either click the "Run in Postman" button (preferred) or Import the appropriate Postman JSON collection file into Postman 
 
 3. Edit the collection - enter the following on the Variables Tab:
 
