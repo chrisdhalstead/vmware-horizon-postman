@@ -399,25 +399,25 @@
 	],
 	"variable": [
 		{
-			"id": "e1f752e6-c577-4a3f-97a9-fceb04947c54",
+			"id": "ddf2c8d8-092d-4f87-be8f-3d225b0972e6",
 			"key": "horizonserver",
 			"value": "Enter Horizon Server",
 			"type": "string"
 		},
 		{
-			"id": "7ce0948c-5c5c-4323-8120-9c5a649d2613",
+			"id": "6c99cdbd-da5a-4950-84e7-4d9a5a9402fd",
 			"key": "username",
 			"value": "Enter Username",
 			"type": "string"
 		},
 		{
-			"id": "b901978c-94e5-41e1-9ca9-d423830c4bd3",
+			"id": "7f4837a5-81e8-4c9f-aa45-e407b4062b13",
 			"key": "password",
 			"value": "Enter Password",
 			"type": "string"
 		},
 		{
-			"id": "8333ff60-8965-4e99-b37c-dbce4b4d5b7a",
+			"id": "82f6d291-2872-48d3-92d0-bffd2e982af2",
 			"key": "domain",
 			"value": "Enter Domain",
 			"type": "string"
