@@ -5,8 +5,6 @@ Postman Collection for VMware Horizon 7 REST API
 
 REST API for VMware Horizon 7.10 and later
 
-**Updated for Horizon 7.11**
-
 ## Horizon 7.11
 
 
