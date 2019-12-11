@@ -1,0 +1,615 @@
+{
+	"info": {
+		"_postman_id": "c9d3682f-151a-4c3c-bbbc-148efe1d91c8",
+		"name": "Horizon 7 REST API (7.11)",
+		"description": "REST API for VMware Horizon 7.10 and later\n\n** Updated for Horizon 7.11 **\n\nDocumented here: https://code.vmware.com/apis/732/view-rest-api\n\nEnter the following on the Variables Tab:\n\n\tHorizon Server FQDN\n\t\n\tUsername\n\t\n\tPassword\n\t\n\tDomain\n\nUsage:\n\nEnter the variables, click update then run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.\n\nChris Halstead\nchalstead@vmware.com\n@chrisdhalstead",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9331b3b-ec16-4693-9bda-6068191e367a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.globals.set(\"JWtoken\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "88cb0edc-2000-4c7c-9fb4-e27943763f1e",
+								"exec": [
+									"pm.globals.unset(\"JWtoken\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"domain\": \"{{domain}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/login",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/logout",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/refresh",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Config",
+			"item": [
+				{
+					"name": "List all IC Domain Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set IC Domain Accounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ad_domain_id\": \"GUID of AD User\",\r\n  \"password\": \"<password>\",\r\n  \"username\": \"<username>\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get IC Domain Account by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Domain Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Domain Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Virtual Centers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/virtual-centers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"virtual-centers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "External",
+			"item": [
+				{
+					"name": "AD Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-domains",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-domains"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Monitor",
+			"item": [
+				{
+					"name": "AD Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/ad-domains",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"ad-domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connection Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/connection-servers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"connection-servers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event DB",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/event-database",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"event-database"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Farms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/farms",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"farms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gateways",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/gateways",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"gateways"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RDS Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/rds-servers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"rds-servers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SAML Authenticators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/saml-authenticators",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"saml-authenticators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/pods",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"pods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "True SSO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/true-sso",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"true-sso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Composer Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/view-composers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"view-composers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Virtual Centers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/virtual-centers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"virtual-centers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{JWtoken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "75e2b175-68fc-4bc2-8835-fc7a1923e1a1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4b6f9713-dd3e-4b17-9764-2253c42747de",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "17ba0d6e-1653-4b67-899e-77f3e411645e",
+			"key": "horizonserver",
+			"value": "Enter Horizon Server",
+			"type": "string"
+		},
+		{
+			"id": "925b75a6-dccd-4e7b-af3b-e17f3a947885",
+			"key": "username",
+			"value": "Enter Username",
+			"type": "string"
+		},
+		{
+			"id": "c9451271-7ecc-4da0-b2b6-de352c5f41ab",
+			"key": "password",
+			"value": "Enter Password",
+			"type": "string"
+		},
+		{
+			"id": "cf4e0053-7a02-48e3-a747-0de12375fc75",
+			"key": "domain",
+			"value": "Enter Domain",
+			"type": "string"
+		}
+	]
+}
