@@ -33,7 +33,7 @@ Updated 12/12/19
 #### Horizon 7.10
 
 - Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/0bd9b80c00d4144abb75)
-- API Documented here: [https://code.vmware.com/apis/697/view-rest-api](url)  
+- API Documented here: <https://code.vmware.com/apis/697/view-rest-api> 
 Updated 10/14/19
 
 
