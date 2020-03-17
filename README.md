@@ -22,6 +22,12 @@ Postman Collection for VMware Horizon 7 REST API
 ## Horizon 7 Versions
 Download the collection for your version of Horizon 7
 
+#### Horizon 7.12
+
+- Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c1fcd395336054205e6e)
+- API Documented here: <https://code.vmware.com/apis/732/view-rest-api>  
+  Updated 3/17/19
+
 
 #### Horizon 7.11
 
