@@ -24,8 +24,8 @@ Download the collection for your version of Horizon 7
 
 #### Horizon 7.12
 
-- Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c1fcd395336054205e6e)
-- API Documented here: <https://code.vmware.com/apis/732/view-rest-api>  
+- Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/b927097517849cd252a5)
+- API Documented here: https://code.vmware.com/apis/919/view-rest-api 
   Updated 3/17/20
 
 
