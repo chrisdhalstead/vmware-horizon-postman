@@ -1,5 +1,5 @@
-# vmware-horizon7-postman
-Postman Collection for VMware Horizon 7 REST API  
+# vmware-horizon-postman
+Postman Collection for VMware Horizon REST API  
 *REST API for VMware Horizon 7.10 and later*
 
 ## Usage
@@ -19,8 +19,8 @@ Postman Collection for VMware Horizon 7 REST API
 
 5. Run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.
 
-## Horizon 7 Versions
-Download the collection for your version of Horizon 7
+## Horizon Versions
+Download the collection for your installed version of Horizon
 
 #### Horizon 7.12
 
