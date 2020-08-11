@@ -1,0 +1,3949 @@
+{
+	"info": {
+		"_postman_id": "0206a663-19a3-48bb-81ea-78f0eea27391",
+		"name": "Horizon 2006 (8.0) REST API",
+		"description": "REST API for VMware Horizon 2006 (8.0)\n\nDocumented here: https://code.vmware.com/apis/919/view-rest-api\n\nEnter the following on the Variables Tab:\n\n\tHorizon Server FQDN\n\t\n\tUsername\n\t\n\tPassword\n\t\n\tDomain\n\nUsage:\n\nEnter the variables, click update then run the Login request to get the JSON Web Token - you can now run the other requests in the collection until the JWT expires.\n\nChris Halstead\nchalstead@vmware.com\n@chrisdhalstead",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9331b3b-ec16-4693-9bda-6068191e367a",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.globals.set(\"JWtoken\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "88cb0edc-2000-4c7c-9fb4-e27943763f1e",
+								"exec": [
+									"pm.globals.unset(\"JWtoken\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"domain\": \"{{domain}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/login",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/logout",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"refresh_token\": \"<jwt.refresh.token>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/refresh",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": []
+		},
+		{
+			"name": "Config",
+			"item": [
+				{
+					"name": "Retrieves the environment settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/environment-properties",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"environment-properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all IC Domain Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set IC Domain Accounts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ad_domain_id\": \"GUID of AD User\",\r\n  \"password\": \"<password>\",\r\n  \"username\": \"<username>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get IC Domain Account by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update IC Domain Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete IC Domain Account",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/ic-domain-accounts/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"ic-domain-accounts",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists image management assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates image management asset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"base_snapshot_id\": \"snapshot-1\",\r\n  \"base_vm_id\": \"vm-2\",\r\n  \"clone_type\": \"INSTANT_CLONE\",\r\n  \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n  \"im_version_id\": \"6f85b3a5-e7d0-4ad6-a1e3-37168dd1ed51\",\r\n  \"image_type\": \"RDSH_APPS\",\r\n  \"status\": \"AVAILABLE\",\r\n  \"vcenter_id\": \"f148f3e8-db0e-4abb-9c33-7e5205ccd360\",\r\n  \"vm_template_id\": \"vm-1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates one or more image management assets. Each of the index of result in the response, correspond to the index of the original asset.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"additional_details\": {\r\n      \"additionalProp1\": \"string\",\r\n      \"additionalProp2\": \"string\",\r\n      \"additionalProp3\": \"string\"\r\n    },\r\n    \"base_snapshot_id\": \"snapshot-1\",\r\n    \"base_vm_id\": \"vm-2\",\r\n    \"clone_type\": \"INSTANT_CLONE\",\r\n    \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n    \"im_version_id\": \"6f85b3a5-e7d0-4ad6-a1e3-37168dd1ed51\",\r\n    \"image_type\": \"RDSH_APPS\",\r\n    \"status\": \"AVAILABLE\",\r\n    \"vcenter_id\": \"f148f3e8-db0e-4abb-9c33-7e5205ccd360\",\r\n    \"vm_template_id\": \"vm-1\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets/action/bulk-create",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets",
+								"action",
+								"bulk-create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets image management asset",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates image management asset",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"clone_type\": \"INSTANT_CLONE\",\r\n  \"image_type\": \"RDSH_APPS\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes image management asset",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-assets/2b1e96d1-893d-48d7-9722-ac1828fa7540",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-assets",
+								"2b1e96d1-893d-48d7-9722-ac1828fa7540"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List image management streams",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates image management stream",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"description\": \"Windows 10 Stream\",\r\n  \"name\": \"Win10\",\r\n  \"operating_system\": \"WINDOWS_10\",\r\n  \"publisher\": \"VMware\",\r\n  \"source\": \"MARKET_PLACE\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates one or more image management streams. Each of the index of result in the response, correspond to the index of the original stream",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"additional_details\": {\r\n      \"additionalProp1\": \"string\",\r\n      \"additionalProp2\": \"string\",\r\n      \"additionalProp3\": \"string\"\r\n    },\r\n    \"description\": \"Windows 10 Stream\",\r\n    \"name\": \"Win10\",\r\n    \"operating_system\": \"WINDOWS_10\",\r\n    \"publisher\": \"VMware\",\r\n    \"source\": \"MARKET_PLACE\",\r\n    \"status\": \"AVAILABLE\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams/action/bulk-create",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams",
+								"action",
+								"bulk-create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets image management stream",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates image management stream",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"description\": \"Windows 10 Stream\",\r\n  \"name\": \"Win10\",\r\n  \"operating_system\": \"WINDOWS_10\",\r\n  \"publisher\": \"VMware\",\r\n  \"source\": \"MARKET_PLACE\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes image management stream",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-streams/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-streams",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists image management tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags?im_stream_id=",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags"
+							],
+							"query": [
+								{
+									"key": "im_stream_id",
+									"value": "",
+									"description": "Stream ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates image management tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n  \"im_version_id\": \"6f85b3a5-e7d0-4ad6-a1e3-37168dd1ed51\",\r\n  \"name\": \"PROD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates one or more image management tags. Each of the index of result in the response, correspond to the index of the original tag.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"additional_details\": {\r\n      \"additionalProp1\": \"string\",\r\n      \"additionalProp2\": \"string\",\r\n      \"additionalProp3\": \"string\"\r\n    },\r\n    \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n    \"im_version_id\": \"6f85b3a5-e7d0-4ad6-a1e3-37168dd1ed51\",\r\n    \"name\": \"PROD\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets image management tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates image management tag",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"im_version_id\": \"7e85b3a5-e7d0-4ad6-a1e3-37168dd1ed62\",\r\n  \"name\": \"PROD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes image management tag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"im_version_id\": \"7e85b3a5-e7d0-4ad6-a1e3-37168dd1ed62\",\r\n  \"name\": \"PROD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-tags/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-tags",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists image management versions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions?im_stream_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions"
+							],
+							"query": [
+								{
+									"key": "im_stream_id",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates image management version",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"description\": \"string\",\r\n  \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n  \"name\": \"v1\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creates one or more image management versions.",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"additional_details\": {\r\n      \"additionalProp1\": \"string\",\r\n      \"additionalProp2\": \"string\",\r\n      \"additionalProp3\": \"string\"\r\n    },\r\n    \"description\": \"string\",\r\n    \"im_stream_id\": \"abc16e8f-9ba0-4789-a5dd-6880f32c52df\",\r\n    \"name\": \"v1\",\r\n    \"status\": \"AVAILABLE\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions/action/bulk-create",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions",
+								"action",
+								"bulk-create"
+							]
+						},
+						"description": "Creates one or more image management versions. Each of the index of result in the response, correspond to the index of the original version."
+					},
+					"response": []
+				},
+				{
+					"name": "Gets image management version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates image management version",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"description\": \"string\",\r\n  \"name\": \"v1\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes image management version",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"additional_details\": {\r\n    \"additionalProp1\": \"string\",\r\n    \"additionalProp2\": \"string\",\r\n    \"additionalProp3\": \"string\"\r\n  },\r\n  \"description\": \"string\",\r\n  \"name\": \"v1\",\r\n  \"status\": \"AVAILABLE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/im-versions/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"im-versions",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registers the RCX client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ip_address\": \"10.109.87.98\",\r\n  \"name\": \"dev.eng.vmware.com\",\r\n  \"thumbprints\": [\r\n    {\r\n      \"ssl_cert_thumbprint\": \"8f:92:9d:3b:a7:85:55:88:60:cd:e1:c8:1e:70:9a:8b:37:6d:a6:e6\",\r\n      \"ssl_cert_thumbprint_algorithm\": \"SHA_1\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/rcx/clients",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"rcx",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates the given RCX client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ip_address\": \"10.109.87.98\",\r\n  \"thumbprints\": [\r\n    {\r\n      \"ssl_cert_thumbprint\": \"8f:92:9d:3b:a7:85:55:88:60:cd:e1:c8:1e:70:9a:8b:37:6d:a6:e6\",\r\n      \"ssl_cert_thumbprint_algorithm\": \"SHA_1\"\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/rcx/clients/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"rcx",
+								"clients",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unregisters the given RCX Client",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/rcx/clients/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"rcx",
+								"clients",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists RCX servers of the cluster",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the configuration settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates the configuration settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"feature_settings\": {\r\n    \"cloud_managed\": true\r\n  },\r\n  \"general_settings\": {\r\n    \"application_sso_timeout_minutes\": 30,\r\n    \"application_sso_timeout_policy\": \"ENABLED\",\r\n    \"block_restricted_clients\": false,\r\n    \"client_idle_session_timeout_minutes\": 300,\r\n    \"client_idle_session_timeout_policy\": \"NEVER\",\r\n    \"client_max_session_timeout_minutes\": 300,\r\n    \"client_max_session_timeout_policy\": \"TIMEOUT_AFTER\",\r\n    \"client_session_timeout_minutes\": 300,\r\n    \"console_session_timeout_minutes\": 30,\r\n    \"display_pre_login_message\": false,\r\n    \"display_warning_before_forced_logoff\": true,\r\n    \"enable_automatic_status_updates\": true,\r\n    \"enable_credential_cleanup_for_htmlaccess\": false,\r\n    \"enable_multi_factor_re_authentication\": false,\r\n    \"enable_sending_domain_list\": false,\r\n    \"enable_server_in_single_user_mode\": true,\r\n    \"forced_logoff_message\": \"The system will shut down shortly. Please save your work.\",\r\n    \"forced_logoff_timeout_minutes\": 3,\r\n    \"hide_domain_list_in_client\": true,\r\n    \"hide_server_information_in_client\": false,\r\n    \"machine_sso_timeout_minutes\": 300,\r\n    \"machine_sso_timeout_policy\": \"DISABLED_AFTER\",\r\n    \"pre_login_message\": \"Disclaimer : This server is being monitored for suspicious activity.\",\r\n    \"restricted_client_data\": [\r\n      {\r\n        \"type\": \"WINDOWS\",\r\n        \"version\": \"string\"\r\n      }\r\n    ],\r\n    \"restricted_client_message\": \"The system does not support this version of the Horizon client.\",\r\n    \"store_cal_on_client\": false,\r\n    \"store_cal_on_connection_server\": false\r\n  },\r\n  \"security_settings\": {\r\n    \"message_security_mode\": \"ENABLED\",\r\n    \"re_auth_secure_tunnel_after_interruption\": true,\r\n    \"recovery_password\": \"string\",\r\n    \"recovery_password_hint\": \"password hint\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the feature settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/feature",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"feature"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates the feature settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cloud_managed\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/feature",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"feature"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the general settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/general",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"general"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates the general settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"application_sso_timeout_minutes\": 30,\r\n  \"application_sso_timeout_policy\": \"ENABLED\",\r\n  \"block_restricted_clients\": false,\r\n  \"client_idle_session_timeout_minutes\": 300,\r\n  \"client_idle_session_timeout_policy\": \"NEVER\",\r\n  \"client_max_session_timeout_minutes\": 300,\r\n  \"client_max_session_timeout_policy\": \"TIMEOUT_AFTER\",\r\n  \"client_session_timeout_minutes\": 300,\r\n  \"console_session_timeout_minutes\": 30,\r\n  \"display_pre_login_message\": false,\r\n  \"display_warning_before_forced_logoff\": true,\r\n  \"enable_automatic_status_updates\": true,\r\n  \"enable_credential_cleanup_for_htmlaccess\": false,\r\n  \"enable_multi_factor_re_authentication\": false,\r\n  \"enable_sending_domain_list\": false,\r\n  \"enable_server_in_single_user_mode\": true,\r\n  \"forced_logoff_message\": \"The system will shut down shortly. Please save your work.\",\r\n  \"forced_logoff_timeout_minutes\": 3,\r\n  \"hide_domain_list_in_client\": true,\r\n  \"hide_server_information_in_client\": false,\r\n  \"machine_sso_timeout_minutes\": 300,\r\n  \"machine_sso_timeout_policy\": \"DISABLED_AFTER\",\r\n  \"pre_login_message\": \"Disclaimer : This server is being monitored for suspicious activity.\",\r\n  \"restricted_client_data\": [\r\n    {\r\n      \"type\": \"WINDOWS\",\r\n      \"version\": \"string\"\r\n    }\r\n  ],\r\n  \"restricted_client_message\": \"The system does not support this version of the Horizon client.\",\r\n  \"store_cal_on_client\": false,\r\n  \"store_cal_on_connection_server\": false\r\n}\r\nParameter content type",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/general",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"general"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves the security settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/security",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"security"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updates the security settings",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/settings/security",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"settings",
+								"security"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Virtual Centers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"<password>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/config/v1/virtual-centers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"config",
+								"v1",
+								"virtual-centers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": []
+		},
+		{
+			"name": "Entitlements",
+			"item": [
+				{
+					"name": "List Entitlements for Application Pools",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create bulk entitlements for a set of application pools",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"ad_user_or_group_ids\": [\r\n      \"S-1-1-1-3965912346-1012345398-3123456564-123\",\r\n      \"S-1-2-3-3123456786-1012345398-3123456784-124\"\r\n    ],\r\n    \"id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/entitlements/v1/application-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"entitlements",
+								"v1",
+								"application-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete bulk entitlements for a set of application pools",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/entitlements/v1/application-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"entitlements",
+								"v1",
+								"application-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Entitlements for a given Application Pools",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Entitlements for all Desktop Pools",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create bulk Entitlements for a set of Desktop Pools",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"ad_user_or_group_ids\": [\r\n      \"S-1-1-1-3965912346-1012345398-3123456564-123\",\r\n      \"S-1-2-3-3123456786-1012345398-3123456784-124\"\r\n    ],\r\n    \"id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/entitlements/v1/desktop-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"entitlements",
+								"v1",
+								"desktop-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete bulk Entitlements for a set of Desktop Pools",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"ad_user_or_group_ids\": [\r\n      \"S-1-1-1-3965912346-1012345398-3123456564-123\",\r\n      \"S-1-2-3-3123456786-1012345398-3123456784-124\"\r\n    ],\r\n    \"id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/entitlements/v1/desktop-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"entitlements",
+								"v1",
+								"desktop-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Returns the IDs of users or groups entitled to a given desktop pool.",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"ad_user_or_group_ids\": [\r\n      \"S-1-1-1-3965912346-1012345398-3123456564-123\",\r\n      \"S-1-2-3-3123456786-1012345398-3123456784-124\"\r\n    ],\r\n    \"id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/entitlements/v1/desktop-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"entitlements",
+								"v1",
+								"desktop-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "APIs for entitlement of resources",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "External",
+			"item": [
+				{
+					"name": "AD Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-domains",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists AD users or groups information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-users-or-groups?group_only=false&page=1&size=2",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-users-or-groups"
+							],
+							"query": [
+								{
+									"key": "group_only",
+									"value": "false",
+									"description": "true returns only groups, false returns only users - remove the parameter to return all"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						},
+						"description": "This API supports Pagination and Filters.\r\nFor Pagination, optional query params of 'page' and 'size' needs to be send.\r\nFor Filters, refer to 'ADUserOrGroupSummary' model description to find supported filters on specific field.\r\nFor full information on using Filters, refer to 'Getting Started' guide of 'VMware Horizon Server API' in code.vmware.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Get information related to AD User or Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-users-or-groups/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-users-or-groups",
+								"{id}"
+							]
+						},
+						"description": "This API supports Pagination and Filters.\r\nFor Pagination, optional query params of 'page' and 'size' needs to be send.\r\nFor Filters, refer to 'ADUserOrGroupSummary' model description to find supported filters on specific field.\r\nFor full information on using Filters, refer to 'Getting Started' guide of 'VMware Horizon Server API' in code.vmware.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Changes the password of AD User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"domain\": \"dev.eng.vmware.com\",\r\n  \"key_id\": \"ut0yGq7CbhtBUGfW3ngjkvjQ2cc=\",\r\n  \"new_encrypted_password\": \"4TGdfggfwrrGUPSg4/JK/tYub7lUI8pGtyHd/ty5g8h5=\",\r\n  \"old_encrypted_password\": \"9QYxpdXrcrOGPSSz1/K/pJu8QlYT7pDkaKg/rb3hlw4=\",\r\n  \"protected_password_key\": \"Qvvjglg5iZinyuldroueo/hQFyqydMMDJPmfYGgIebqxbU9chJ9I8iM9SCBRHSkSW9y+RMQOfC\",\r\n  \"username\": \"administrator or admin@dev.eng.vmware.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-users-or-groups/action/change-user-password",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-users-or-groups",
+								"action",
+								"change-user-password"
+							]
+						},
+						"description": "This API supports Pagination and Filters.\r\nFor Pagination, optional query params of 'page' and 'size' needs to be send.\r\nFor Filters, refer to 'ADUserOrGroupSummary' model description to find supported filters on specific field.\r\nFor full information on using Filters, refer to 'Getting Started' guide of 'VMware Horizon Server API' in code.vmware.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Validates the encrypted credentials of AD User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"domain\": \"dev.eng.vmware.com\",\r\n  \"encrypted_password\": \"9QYxpdXrcrOGPSSz1/K/pJu8QlYT7pDkaKg/rb3hlw4=\",\r\n  \"key_id\": \"ut0yGq7CbhtBUGfW3ngjkvjQ2cc=\",\r\n  \"protected_password_key\": \"Qvvjglg5iZinyuldroueo/hQFyqydMMDJPmfYGgIebqxbU9chJ9I8iM9SCBRHSkSW9y+RM\",\r\n  \"username\": \"administrator or admin@dev.eng.vmware.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/ad-users-or-groups/action/validate-user-encrypted-credentials",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"ad-users-or-groups",
+								"action",
+								"validate-user-encrypted-credentials"
+							]
+						},
+						"description": "This API supports Pagination and Filters.\r\nFor Pagination, optional query params of 'page' and 'size' needs to be send.\r\nFor Filters, refer to 'ADUserOrGroupSummary' model description to find supported filters on specific field.\r\nFor full information on using Filters, refer to 'Getting Started' guide of 'VMware Horizon Server API' in code.vmware.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the VM snapshots from the vCenter for a given VM",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/base-snapshots",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"base-snapshots"
+							],
+							"query": [
+								{
+									"key": "base_vm_id",
+									"value": "",
+									"description": "Optional ID of Datacenter",
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "Lists all the VMs from a vCenter or a datacenter in that vCenter which may be suitable as snapshots for instant/linked clone desktop or farm creation."
+					},
+					"response": []
+				},
+				{
+					"name": "List all Base VMs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/base-vms?vcenter_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"base-vms"
+							],
+							"query": [
+								{
+									"key": "datacenter_id",
+									"value": "",
+									"description": "Optional ID of Datacenter",
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": "",
+									"description": "Mandatory"
+								}
+							]
+						},
+						"description": "Lists all the VMs from a vCenter or a datacenter in that vCenter which may be suitable as snapshots for instant/linked clone desktop or farm creation."
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the customization specifications from the vCenter.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/base-vms?vcenter_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"base-vms"
+							],
+							"query": [
+								{
+									"key": "datacenter_id",
+									"value": "",
+									"description": "Optional ID of Datacenter",
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": "",
+									"description": "Mandatory"
+								}
+							]
+						},
+						"description": "Lists all the VMs from a vCenter or a datacenter in that vCenter which may be suitable as snapshots for instant/linked clone desktop or farm creation."
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the datacenters of a vCenter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/datacenters?vcenter_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"datacenters"
+							],
+							"query": [
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "vCenter ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the folder paths within a Datastore from vCenter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/datastore-paths?vcenter_id&datastore_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"datastore-paths"
+							],
+							"query": [
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "vCenter ID"
+								},
+								{
+									"key": "datastore_id",
+									"value": null,
+									"description": "Datastore ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the datastoress from the vCenter for the given host or cluster.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/datastores?vcenter_id&host_or_cluster_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"datastores"
+							],
+							"query": [
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "vCenter ID"
+								},
+								{
+									"key": "host_or_cluster_id",
+									"value": null,
+									"description": "Host or Cluster ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the hosts or clusters of the datacenter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/hosts-or-clusters?datacenter_id&vcenter_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"hosts-or-clusters"
+							],
+							"query": [
+								{
+									"key": "datacenter_id",
+									"value": "",
+									"description": "Mandatory"
+								},
+								{
+									"key": "vcenter_id",
+									"value": "",
+									"description": "Mantatory"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Returns a list of network interface cards (NICs) suitable for configuration on a desktop pool/farm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/network-interface-cards?vcenter_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"network-interface-cards"
+							],
+							"query": [
+								{
+									"key": "vm_template_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "Mantatory"
+								},
+								{
+									"key": "base_vm_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "base_snapshot_id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieves all network labels on the given host or cluster",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/network-labels?vcenter_id&host_or_cluster_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"network-labels"
+							],
+							"query": [
+								{
+									"key": "vm_template_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "Mantatory"
+								},
+								{
+									"key": "host_or_cluster_id",
+									"value": null,
+									"description": "Mandatory"
+								},
+								{
+									"key": "network_type",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the resource pools from the vCenter for the given host or cluster",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/network-labels?vcenter_id&host_or_cluster_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"network-labels"
+							],
+							"query": [
+								{
+									"key": "vm_template_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": null,
+									"description": "Mantatory"
+								},
+								{
+									"key": "host_or_cluster_id",
+									"value": null,
+									"description": "Mandatory"
+								},
+								{
+									"key": "network_type",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists all the VM folders from the vCenter for the given datacenter.",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/vm-folders?datacenter_id&host_or_cluster_id",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"vm-folders"
+							],
+							"query": [
+								{
+									"key": "vm_template_id",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "datacenter_id",
+									"value": null,
+									"description": "Mantatory"
+								},
+								{
+									"key": "host_or_cluster_id",
+									"value": null,
+									"description": "Mandatory"
+								},
+								{
+									"key": "network_type",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all Templates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/external/v1/vm-templates?vcenter_id=b7a6f88c-f422-45e0-a8a9-8e5097b740a2",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"external",
+								"v1",
+								"vm-templates"
+							],
+							"query": [
+								{
+									"key": "datacenter_id",
+									"value": null,
+									"description": "Optional",
+									"disabled": true
+								},
+								{
+									"key": "vcenter_id",
+									"value": "b7a6f88c-f422-45e0-a8a9-8e5097b740a2",
+									"description": "Mantatory"
+								}
+							]
+						},
+						"description": "Lists all the VM templates from a vCenter or a datacenter for the given vCenter which may be suitable for full clone desktop pool creation"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": []
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Lists the application icons for a given application pool",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-icons?application_pool_id=",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-icons"
+							],
+							"query": [
+								{
+									"key": "application_pool_id",
+									"value": "",
+									"description": "Application Pool ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets application icon",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-icons/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-icons",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Application Pools",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Application Pool",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"anti_affinity_data\": {\r\n    \"anti_affinity_count\": 10,\r\n    \"anti_affinity_patterns\": [\r\n      \"*pad.exe\",\r\n      \"*notepad.???\"\r\n    ]\r\n  },\r\n  \"category_folder_name\": \"dir1\\\\dir2\\\\dir3\\\\dir4\",\r\n  \"cs_restriction_tags\": [\r\n    \"Internal\",\r\n    \"External\"\r\n  ],\r\n  \"description\": \"string\",\r\n  \"desktop_pool_id\": \"0103796c-102b-4ed3-953f-3dfe3d23e0fe\",\r\n  \"display_name\": \"Firefox\",\r\n  \"enable_client_restrictions\": false,\r\n  \"enable_pre_launch\": false,\r\n  \"enabled\": true,\r\n  \"executable_path\": \"C:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Start Menu\\\\Programs\\\\Firefox.lnk\",\r\n  \"farm_id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\",\r\n  \"max_multi_sessions\": 5,\r\n  \"multi_session_mode\": \"DISABLED\",\r\n  \"name\": \"Firefox\",\r\n  \"parameters\": \"-p myprofile\",\r\n  \"publisher\": \"Mozilla Corporation\",\r\n  \"shortcut_locations\": [\r\n    \"START_MENU\"\r\n  ],\r\n  \"start_folder\": \"string\",\r\n  \"supported_file_types_data\": {\r\n    \"enable_auto_update_file_types\": true,\r\n    \"enable_auto_update_other_file_types\": true,\r\n    \"file_types\": [\r\n      {\r\n        \"description\": \"Firefox Document\",\r\n        \"type\": \".html\"\r\n      }\r\n    ],\r\n    \"other_file_types\": [\r\n      {\r\n        \"description\": \"Firefox URL\",\r\n        \"name\": \"https\",\r\n        \"type\": \"URL\"\r\n      }\r\n    ]\r\n  },\r\n  \"version\": \"72.0.2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets Application Pool",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Application Pool",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"anti_affinity_data\": {\r\n    \"anti_affinity_count\": 10,\r\n    \"anti_affinity_patterns\": [\r\n      \"*pad.exe\",\r\n      \"*notepad.???\"\r\n    ]\r\n  },\r\n  \"category_folder_name\": \"dir1\\\\dir2\\\\dir3\\\\dir4\",\r\n  \"cs_restriction_tags\": [\r\n    \"Internal\",\r\n    \"External\"\r\n  ],\r\n  \"description\": \"string\",\r\n  \"display_name\": \"Firefox\",\r\n  \"enable_client_restrictions\": false,\r\n  \"enable_pre_launch\": false,\r\n  \"enabled\": true,\r\n  \"executable_path\": \"C:\\\\ProgramData\\\\Microsoft\\\\Windows\\\\Start Menu\\\\Programs\\\\Firefox.lnk\",\r\n  \"max_multi_sessions\": 5,\r\n  \"multi_session_mode\": \"ENABLED_ENFORCED\",\r\n  \"parameters\": \"-p myprofile\",\r\n  \"publisher\": \"Mozilla Corporation\",\r\n  \"shortcut_locations\": [\r\n    \"START_MENU\"\r\n  ],\r\n  \"start_folder\": \"string\",\r\n  \"supported_file_types_data\": {\r\n    \"enable_auto_update_file_types\": true,\r\n    \"enable_auto_update_other_file_types\": true,\r\n    \"file_types\": [\r\n      {\r\n        \"description\": \"Firefox Document\",\r\n        \"type\": \".html\"\r\n      }\r\n    ],\r\n    \"other_file_types\": [\r\n      {\r\n        \"description\": \"Firefox URL\",\r\n        \"name\": \"https\",\r\n        \"type\": \"URL\"\r\n      }\r\n    ]\r\n  },\r\n  \"version\": \"72.0.2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Application Pool",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/application-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"application-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists the Desktop Pools in the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets the Desktop Pool information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adds machines to the given manual desktop pool",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/desktop-pools/{id}/action/add-machines",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"desktop-pools",
+								"{id}",
+								"action",
+								"add-machines"
+							]
+						},
+						"description": "List of Machine IDs to be added are in the body"
+					},
+					"response": []
+				},
+				{
+					"name": "Adds the named machines to the given desktop pool",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"name\": \"machine1\",\r\n    \"user_id\": \"S-1-1-1-3965912346-1012345398-3123456564-123\"\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools/{id}/action/add-machines-by-name",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools",
+								"{id}",
+								"action",
+								"add-machines-by-name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Removes machines from the given manual desktop pool",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools/{id}/action/remove-machines",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools",
+								"{id}",
+								"action",
+								"remove-machines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists the installed applications on the given desktop pool",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools/{id}/installed-applications",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools",
+								"{id}",
+								"installed-applications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists the Farms in the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/farms",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"farms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets the Farm information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/farms/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"farms",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists the installed applications on the given farm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/farms/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"farms",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists the Machines in the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/farms/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"farms",
+								"{id}"
+							]
+						},
+						"description": "This API supports Pagination and Filters.\r\nFor Pagination, optional query params of ‘page’ and ‘size’ need to be sent.\r\nFor Filters, refer to ‘MachineInfo’ model description to find supported filters on specific field.\r\nFor full information on using Filters, refer to ‘Horizon Server REST Pagination and Filter Guide’ of ‘VMware Horizon Server API’ in code.vmware.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes the specified machines",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"machine_delete_data\": {\r\n    \"allow_delete_from_multi_desktop_pools\": true,\r\n    \"archive_datastore_id\": \"855ea6c5-720a-41e1-96f4-958c90e6e424\",\r\n    \"archive_datastore_path_id\": \"a219420d-4799-4517-8f78-39c74c7c4efc\",\r\n    \"archive_persistent_disk\": true,\r\n    \"delete_from_disk\": true,\r\n    \"force_logoff_session\": true\r\n  },\r\n  \"machine_ids\": [\r\n    \"0103796c-102b-4ed3-953f-3dfe3d23e0fe\",\r\n    \"7cdd624f-37d1-46c1-ab96-695a5d13956f\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "html"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets the Machine information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletes the machine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assigns the specified users to the machine",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of user SIDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/{id}/action/assign-users",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"{id}",
+								"action",
+								"assign-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un-assigns the specified users from the machine",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of user SIDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/{id}/action/unassign-users",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"{id}",
+								"action",
+								"unassign-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Puts the machines into maintenance mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids to put in maint mode - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/enter-maintenance",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"enter-maintenance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Puts the machines out of maintenance mode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/exit-maintenance",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"exit-maintenance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rebuilds the specified machines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/rebuild",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"rebuild"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recovers the specified machines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/recover",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"recover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resets the specified machines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/reset",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restarts the specified machines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of machines ids - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/machines/action/restart",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"machines",
+								"action",
+								"restart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sessions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets the Session information",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disconnects user sessions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of session IDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/action/disconnect",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"action",
+								"disconnect"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logs off user sessions, if they are not locked",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of session IDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/action/logoff",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"action",
+								"logoff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resets machine of user sessions.",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of session IDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/action/reset",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"action",
+								"reset"
+							]
+						},
+						"description": "The machine must be managed by Virtual Center and the session cannot be an application or an RDS desktop session"
+					},
+					"response": []
+				},
+				{
+					"name": "Restarts machine of user sessions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  \"list of session IDs - string\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/action/restart",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"action",
+								"restart"
+							]
+						},
+						"description": "The machine must be managed by Virtual Center and the session cannot be an application or an RDS desktop session"
+					},
+					"response": []
+				},
+				{
+					"name": "Sends the message to user sessions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"message\": \"Sample Info Message\",\r\n  \"message_type\": \"INFO\",\r\n  \"session_ids\": [\r\n    \"7cdd624f-37d1-46c1-ab96-695a5d13956f\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/sessions/action/send-message",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"sessions",
+								"action",
+								"send-message"
+							]
+						},
+						"description": "The machine must be managed by Virtual Center and the session cannot be an application or an RDS desktop session"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Desktop Pools (v2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Desktop Pools Information (v2)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/inventory/v1/desktop-pools/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"inventory",
+								"v1",
+								"desktop-pools",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": []
+		},
+		{
+			"name": "Monitor",
+			"item": [
+				{
+					"name": "AD Domains",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/ad-domains",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"ad-domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connection Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/connection-servers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"connection-servers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Event Database",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/event-database",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"event-database"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Farms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/farms",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"farms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gateways",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/gateways",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"gateways"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RDS Servers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/rds-servers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"rds-servers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SAML Authenticators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/saml-authenticators",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"saml-authenticators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to Connection Server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/connection-servers/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"connection-servers",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to farm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/farms/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"farms",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to a Gateway",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/gateways/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"gateways",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to the remote pods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/pods",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"pods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to the remote pod",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/pods/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"pods",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to RDS Server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/rds-servers/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"rds-servers",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets Monitoring Information related to a SAML Authenticator",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/saml-authenticators/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"saml-authenticators",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to True SSO connector",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/true-sso",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"true-sso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to a True SSO connector",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/true-sso/{v1}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"true-sso",
+								"{v1}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information of view composer for a given virtual center",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/view-composers/{vcId}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"view-composers",
+								"{vcId}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gets monitoring information related to Virtual Center",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v1/virtual-centers/{id}",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v1",
+								"virtual-centers",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to AD Domains of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/ad-domains",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"ad-domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to Connection Servers of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/connection-servers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"connection-servers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to Gateways registered in the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/gateways",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"gateways"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to the remote pods",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/pods",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"pods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to SAML Authenticators of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/saml-authenticators",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"saml-authenticators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to View Composers of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/view-composers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"view-composers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to Virtual Centers of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/v2/virtual-centers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"v2",
+								"virtual-centers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to View Composers of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/view-composers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"view-composers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists monitoring information related to Virtual Centers of the environment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{horizonserver}}/rest/monitor/virtual-centers",
+							"protocol": "https",
+							"host": [
+								"{{horizonserver}}"
+							],
+							"path": [
+								"rest",
+								"monitor",
+								"virtual-centers"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{JWtoken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "75e2b175-68fc-4bc2-8835-fc7a1923e1a1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4b6f9713-dd3e-4b17-9764-2253c42747de",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "a8a159e3-ef74-40e6-9030-8fb37cf74857",
+			"key": "horizonserver",
+			"value": "Enter Horizon Server"
+		},
+		{
+			"id": "abb8bc91-90a0-4bcd-96e7-5bbbec220b6c",
+			"key": "username",
+			"value": "Enter Username"
+		},
+		{
+			"id": "2408f331-2507-40d1-bb45-1ce416e686a1",
+			"key": "password",
+			"value": "Enter Password"
+		},
+		{
+			"id": "c428d8b3-9a80-4754-8639-3ae45b83d8be",
+			"key": "domain",
+			"value": "Enter Domain"
+		}
+	],
+	"protocolProfileBehavior": []
+}
