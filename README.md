@@ -22,7 +22,8 @@ Download the collection for your installed version of Horizon
 #### Horizon 8 (2111)
 
 - Click the following button to run this collection in Postman: [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/11e3fac5415ffa9f73a7?action=collection%2Fimport)
-- Note: starting with the Horizon 2111 Collection the server name needs to include /r
+- Note: starting with the Horizon 2111 Collection the server name needs to include /rest 
+  - Example:  https://horizonserver.mydomain.com/rest
 - API Documented here:  [https://developer.vmware.com/apis/1189](https://developer.vmware.com/apis/1189)  
   Updated 6/6/22
 
