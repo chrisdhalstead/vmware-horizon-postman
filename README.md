@@ -60,6 +60,6 @@ Updated 12/12/19
 
 ## Feedback
 
-Chris Halstead -Senior Staff Technical Product Manager, VMware  
+Chris Halstead - Senior Staff Technical Product Manager, VMware  
 Email: chalstead@vmware.com  
 Twitter: @chrisdhalstead
